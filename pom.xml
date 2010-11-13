@@ -4,7 +4,7 @@
 
 	<groupId>searls</groupId>
 	<artifactId>jasmine-maven-plugin</artifactId>
-	<version>1.0.1-pulse0</version>
+	<version>1.0.1-pulse1</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>jasmine</name>
@@ -177,13 +177,9 @@
 
 	<distributionManagement>
 		<repository>
-			<id>local-nexus</id>
-			<url>http://localhost:8081/nexus/content/repositories/releases</url>
+			<id>nexus</id>
+			<url>http://localhost:8081/nexus/content/repositories/thirdparty</url>
 		</repository>
-		<snapshotRepository>
-			<id>local-nexus</id>
-			<url>http://localhost:8081/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
 	</distributionManagement>
 
 	<repositories>
