@@ -15,12 +15,12 @@ import org.codehaus.plexus.util.FileUtils;
 public class SpecRunnerHtmlGenerator {
 	
 	private static final String CSS_TYPE = "css";
-	private static final String CSS_DEPENDENCIES_TEMPLATE_ATTR_NAME = "cssDependencies";	
+	private static final String CSS_DEPENDENCIES_TEMPLATE_ATTR_NAME = "cssDependencies";
 	private static final String JAVASCRIPT_TYPE = "js";
-	private static final String JAVASCRIPT_DEPENDENCIES_TEMPLATE_ATTR_NAME = "javascriptDependencies";	
+	private static final String JAVASCRIPT_DEPENDENCIES_TEMPLATE_ATTR_NAME = "javascriptDependencies";
 	private static final String SOURCES_TEMPLATE_ATTR_NAME = "sources";
 	private static final String REPORTER_ATTR_NAME = "reporter";
-	private static final String RUNNER_HTML_TEMPLATE = 
+	private static final String RUNNER_HTML_TEMPLATE =
 		"<html>" +
 		"<head><title>Jasmine Test Runner</title>" +
 		"$"+CSS_DEPENDENCIES_TEMPLATE_ATTR_NAME+"$ " +
@@ -36,10 +36,14 @@ public class SpecRunnerHtmlGenerator {
 	private final File specDir;
 	private List<String> sourcesToLoadFirst;
 	private List<File> fileNamesAlreadyWrittenAsScriptTags = new ArrayList<File>();
+	private String includes;
+	private final String excludes;
 
-	public SpecRunnerHtmlGenerator(List<String> sourcesToLoadFirst, File sourceDir,File specDir) {
+	public SpecRunnerHtmlGenerator(List<String> sourcesToLoadFirst, File sourceDir, String includes, String excludes, File specDir) {
 		this.sourcesToLoadFirst = sourcesToLoadFirst;
 		this.sourceDir = sourceDir;
+		this.includes = includes;
+		this.excludes = excludes;
 		this.specDir = specDir;
 	}
 
@@ -48,7 +52,7 @@ public class SpecRunnerHtmlGenerator {
 			StringTemplate template = new StringTemplate(RUNNER_HTML_TEMPLATE,DefaultTemplateLexer.class);
 			
 			includeJavaScriptAndCssDependencies(dependencies, template);
-			setJavaScriptSourcesAttribute(template);			
+			setJavaScriptSourcesAttribute(template);
 			template.setAttribute(REPORTER_ATTR_NAME, reporterType.name());
 			
 			return template.toString();
@@ -76,7 +80,7 @@ public class SpecRunnerHtmlGenerator {
 	private void setJavaScriptSourcesAttribute(StringTemplate template)
 			throws IOException {
 		StringBuilder scriptTags = new StringBuilder();
-		appendScriptTagsForFiles(scriptTags,expandSourcesToLoadFirstRelativeToSourceDir());				
+		appendScriptTagsForFiles(scriptTags,expandSourcesToLoadFirstRelativeToSourceDir());
 		appendScriptTagsForFiles(scriptTags, filesForScriptsInDirectory(sourceDir));
 		appendScriptTagsForFiles(scriptTags, filesForScriptsInDirectory(specDir));
 		template.setAttribute(SOURCES_TEMPLATE_ATTR_NAME,scriptTags.toString());
@@ -97,9 +101,9 @@ public class SpecRunnerHtmlGenerator {
 		List<File> files = new ArrayList<File>();
 		if(directory != null) {
 			FileUtils.forceMkdir(directory);
-			files = FileUtils.getFiles(directory, "**/*.js", null, true);
-			Collections.sort(files); 
-		} 
+			files = FileUtils.getFiles(directory, includes, excludes, true);
+			Collections.sort(files);
+		}
 		return files;
 	}
 

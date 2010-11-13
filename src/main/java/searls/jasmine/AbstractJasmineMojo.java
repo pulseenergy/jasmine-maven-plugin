@@ -22,13 +22,23 @@ public abstract class AbstractJasmineMojo extends AbstractMojo {
 	protected File jsTestSrcDir;
 	
 	/**
+	 * @parameter default-value="**\/*.js" expression="${include}"
+	 */
+	protected String include;
+	
+	/**
+	 * @parameter expression="${exclude}"
+	 */
+	protected String exclude;
+	
+	/**
 	 * @parameter default-value="js" expression="${packageJavaScriptPath}"
 	 */
 	protected String packageJavaScriptPath;
 	
 	/**
 	 * JavaScript sources (typically vendor/lib dependencies) that need to be loaded
-	 * before other sources (and specs) in a particular order, these are relative to the ${jsSrcDir} 
+	 * before other sources (and specs) in a particular order, these are relative to the ${jsSrcDir}
 	 * directory! Therefore, if jquery.js is in `${jsSrcDir}/vendor`, you would configure:
 	 * 
 	 *  	&lt;preloadSources&gt;

@@ -17,7 +17,7 @@ import searls.jasmine.runner.SpecRunnerHtmlGenerator.ReporterType;
 
 public class SpecRunnerHtmlGeneratorTest {
 
-	private SpecRunnerHtmlGenerator specRunnerHtmlGenerator = new SpecRunnerHtmlGenerator(null,null,null);
+	private SpecRunnerHtmlGenerator specRunnerHtmlGenerator = new SpecRunnerHtmlGenerator(null,null,"**/*.js",null,null);
 	
 	@Test
 	public void shouldBuildBasicHtmlWhenNoDependenciesAreProvided() {
@@ -44,7 +44,7 @@ public class SpecRunnerHtmlGeneratorTest {
 		String jasmineHtmlString = "javascript_jasmine_html()";
 		List<Artifact> deps = new ArrayList<Artifact>();
 		deps.add(mockDependency("com.pivotallabs", "jasmine", "1.0.1", "js", jasmineString));
-		deps.add(mockDependency("com.pivotallabs", "jasmine-html", "1.0.1", "js", jasmineHtmlString));		
+		deps.add(mockDependency("com.pivotallabs", "jasmine-html", "1.0.1", "js", jasmineHtmlString));
 		
 		String html = specRunnerHtmlGenerator.generate(deps, ReporterType.TrivialReporter);
 		
